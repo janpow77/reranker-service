@@ -31,12 +31,14 @@ class ModelRegistry:
                 return self._models[model_name]
             cfg = get_config()
             t0 = time.monotonic()
-            log.info("Lade Cross-Encoder %s (device=%s, cache=%s)…", model_name, cfg.device, cfg.model_cache_dir)
+            log.info("Lade Cross-Encoder %s (device=%s, HF_HOME=%s)…", model_name, cfg.device, cfg.model_cache_dir)
+            # sentence-transformers nimmt HF_HOME aus dem ENV automatisch.
+            # Kein cache_folder-Argument — wurde in spaeteren Versionen ent-
+            # fernt/umbenannt; ENV ist die stabile Schnittstelle.
             model = CrossEncoder(
                 model_name,
                 max_length=cfg.max_sequence_length,
                 device=cfg.device,
-                cache_folder=cfg.model_cache_dir,
             )
             # Warmup mit kurzer Eingabe, damit Tokenizer + Forward-Pass JIT-warm sind.
             try:
