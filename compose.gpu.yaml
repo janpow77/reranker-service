@@ -1,0 +1,15 @@
+# GPU-Override fuer reranker-service. Anwenden via:
+#   docker compose -f compose.yaml -f compose.gpu.yaml up -d
+# Voraussetzung: nvidia-container-toolkit + Docker GPU-Runtime.
+
+services:
+  reranker-service:
+    environment:
+      RERANKER_DEVICE: "cuda"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
