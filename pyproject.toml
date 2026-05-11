@@ -11,7 +11,11 @@ dependencies = [
     "fastapi>=0.110",
     "uvicorn[standard]>=0.27",
     "pydantic>=2.6",
-    "sentence-transformers>=2.7",
+    "sentence-transformers>=2.7,<3.5",
+    # transformers >=4.50 hat einen NameError-Bug in
+    # integrations/accelerate.py (nn nicht importiert). Pin auf eine
+    # bewaehrte 4.4x-Release.
+    "transformers>=4.40,<4.50",
     # torch wird ueber sentence-transformers gezogen; CPU-only Variante im
     # Dockerfile via --index-url https://download.pytorch.org/whl/cpu.
     # Fuer GPU-Builds: requirements-gpu.txt verwenden.
