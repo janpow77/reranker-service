@@ -1,0 +1,74 @@
+name: Image Build & Push (GHCR)
+
+# Reranker-Service-Image, CPU-only (~3 GB inkl. baked HF-Cache).
+# GHA-Runner haben 14 GB Disk, das passt — aber GHA-Cache kann
+# enge Limits haben (10 GB pro Workflow). Daher: scope-pin + mode=min.
+#
+# Hinweis: das baked-Modell (BAAI/bge-reranker-v2-m3, 568 MB) wird im
+# Build geladen. Das macht den ersten Build ~3-4 min lang.
+
+on:
+  push:
+    branches: [master, main]
+    tags: ["v*.*.*"]
+  workflow_dispatch:
+    inputs:
+      preload_model:
+        description: "HF-Modell vorladen (build-arg PRELOAD_MODEL)"
+        type: string
+        default: "BAAI/bge-reranker-v2-m3"
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: image-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Free up runner disk (HF-Modell + pip-Wheels brauchen Platz)
+        run: |
+          sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache
+          df -h / | tail -1
+
+      - name: Tags + Labels
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/janpow77/reranker-service
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=sha,prefix=sha-,format=short
+            type=raw,value=latest,enable={{is_default_branch}}
+          labels: |
+            org.opencontainers.image.title=reranker-service
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+
+      - name: Build & Push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            PRELOAD_MODEL=${{ inputs.preload_model || 'BAAI/bge-reranker-v2-m3' }}
+          cache-from: type=gha,scope=reranker-service
+          cache-to: type=gha,scope=reranker-service,mode=min
+          provenance: false
