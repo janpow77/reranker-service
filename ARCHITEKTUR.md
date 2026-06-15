@@ -42,6 +42,12 @@ _Hohe Zentralität ist nicht automatisch ein Defekt (zentrale Stores/Modelle sin
 - `config.py (src/reranker_service/config.py)` — Betweenness 0.006
 - `RerankRequest (src/reranker_service/main.py)` — Betweenness 0.004
 
+## Empfohlene Spezialisten
+
+Passend zu Stack/Domäne dieses Projekts (Claude-Code-Agents/Skills):
+
+`/deutsche-formulierung`, `@git-workflow`, `/auto-verify`, `/rag-knowledge-base`, `@code-api-checker`, `@code-audit-expert`, `@docker-proxy-debugger`, `/docker-debug`, `/cross-project-health`, `@memory-bridge`.
+
 ## Hinweis für Änderungen
 
 Vor dem Ändern eines zentralen Bausteins die Abhängigen prüfen — am schnellsten über den **graphify-MCP** (globaler Graph): „Was hängt an `<datei>`?". Brücken-Knoten stabil halten.
