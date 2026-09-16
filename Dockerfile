@@ -20,7 +20,14 @@ WORKDIR /build
 # CPU-only Torch (~250 MB statt ~2 GB GPU-Variante). GPU-Builds nutzen
 # stattdessen das default-PyPI-Index.
 ARG TORCH_INDEX_URL=https://download.pytorch.org/whl/cpu
-RUN pip install --index-url ${TORCH_INDEX_URL} torch==2.3.1+cpu || pip install torch==2.3.1
+# TORCH_SPEC überschreibbar: Für Blackwell-GPUs (RTX 50xx, sm_120) braucht es
+# torch >= 2.7 mit CUDA 12.8, z. B.
+#   --build-arg TORCH_INDEX_URL=https://download.pytorch.org/whl/cu128 \
+#   --build-arg TORCH_SPEC=torch==2.7.1
+# Gemessen am 16.09.2026 auf der NUC: CPU-Variante 4,4–4,7 s für zwei kurze
+# Passagen bei Last 14 auf 20 Kernen — ein fester Preis je Anfrage.
+ARG TORCH_SPEC=torch==2.3.1+cpu
+RUN pip install --index-url ${TORCH_INDEX_URL} ${TORCH_SPEC} || pip install torch==2.3.1
 
 COPY pyproject.toml ./
 COPY src/ ./src/
