@@ -1,6 +1,6 @@
 # reranker-service
 
-Cross-Encoder-Reranker-Microservice. Wird vom **llm-router** als Spoke mit Capability `rerank` angesprochen (Cohere/Voyage-kompatible Rerank-API). Host-agnostisch deploybar (NUC/evo-x2/Desktop) im Tailscale-Netz; Apps reden nicht direkt mit dem Service, sondern über den llm-router.
+Cross-Encoder-Reranker-Microservice. Wird vom **llm-router** als Spoke mit Capability `rerank` angesprochen (Cohere/Voyage-kompatible Rerank-API). Host-agnostisch deploybar (CPU-Server, GPU-Host, Desktop) im Tailscale-Netz; Apps reden nicht direkt mit dem Service, sondern über den llm-router.
 
 ## Tech-Stack
 

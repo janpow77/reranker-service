@@ -2,6 +2,7 @@
 
 [![Image Build & Push (GHCR)](https://github.com/janpow77/reranker-service/actions/workflows/image.yml/badge.svg)](https://github.com/janpow77/reranker-service/actions/workflows/image.yml)
 ![Python](https://img.shields.io/badge/python-%E2%89%A53.11-blue)
+[![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-green)](LICENSE)
 
 **Cross-Encoder-Reranker als kleiner HTTP-Dienst: Er bekommt eine Anfrage und eine Liste von Textpassagen
 und gibt sie nach Relevanz sortiert zurück. Gedacht als Rerank-Stufe hinter einer Vektorsuche (RAG),
@@ -231,5 +232,4 @@ Issues und Pull Requests sind willkommen. Vor einem PR `pytest` und `ruff check 
 
 ## Lizenz
 
-<!-- TODO: Im Repository liegt keine LICENSE-Datei; Lizenz festlegen. -->
-Noch keine Lizenz festgelegt.
+Veröffentlicht unter der [MIT-Lizenz](LICENSE), Copyright (c) 2026 Jan Riener.

@@ -1,4 +1,4 @@
-# reranker-service — generisches Compose-File, deploybar auf NUC/evo/Desktop.
+# reranker-service — generisches Compose-File, deploybar auf beliebigen Hosts (CPU oder GPU).
 #
 # Bind-Mount /var/lib/reranker/data persistiert den HF-Cache; das vermeidet,
 # dass beim ersten Container-Start das Modell aus dem Image kopiert werden
@@ -28,7 +28,7 @@ services:
     volumes:
       - /var/lib/reranker/data:/data
     # Default: nur Tailscale-erreichbar — bind auf 100.x.y.z, nicht 0.0.0.0.
-    # Beim NUC-Setup wird Tailscale-IP automatisch ueber Compose-Override gesetzt.
+    # Die Tailscale-IP wird per RERANKER_BIND (.env) oder Compose-Override gesetzt.
     ports:
       - "${RERANKER_BIND:-0.0.0.0}:8004:8004"
     healthcheck:

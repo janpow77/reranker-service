@@ -1,8 +1,8 @@
 """Konfiguration via Umgebungsvariablen.
 
 Alle Optionen sind via ENV ueberschreibbar. Default-Werte zielen auf einen
-CPU-only Lauf auf der NUC (Intel/AMD-CPU, kein GPU); fuer evo-x2 oder
-Desktop einfach RERANKER_DEVICE=cuda setzen, sentence-transformers nimmt
+CPU-only Lauf (Intel/AMD-CPU, kein GPU); fuer GPU-Hosts
+oder Desktop einfach RERANKER_DEVICE=cuda setzen, sentence-transformers nimmt
 dann automatisch das default-CUDA-Geraet.
 """
 from __future__ import annotations

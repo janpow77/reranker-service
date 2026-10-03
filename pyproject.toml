@@ -1,11 +1,12 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "reranker-service"
 version = "0.1.0"
-description = "Cross-Encoder Reranker-Microservice. Host-agnostisch (NUC/evo-x2/Desktop), wird vom llm-router als Spoke (capability=rerank) angesprochen."
+description = "Cross-Encoder Reranker-Microservice. Host-agnostisch (CPU-Server, GPU-Host, Desktop), wird vom llm-router als Spoke (capability=rerank) angesprochen."
+license = "MIT"
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.110",
